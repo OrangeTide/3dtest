@@ -1,6 +1,9 @@
 #ifndef GL_H
 #define GL_H
-#include <gl/gl.h>
+#include <GL/gl.h>
+#ifndef _WIN32
+#include <GL/glext.h>
+#endif
 #include <stddef.h>
 
 typedef ptrdiff_t GLsizeiptr;
@@ -13,6 +16,7 @@ typedef char GLchar;
 #define FIRST_VERTEX_CONVENTION 0x8E4D
 #define LAST_VERTEX_CONVENTION  0x8E4E
 
+#ifdef _WIN32
 #define ABI __attribute__((stdcall))
 
 ABI void   (*glBindBuffer)(GLenum, GLuint);
@@ -36,10 +40,11 @@ ABI void   (*glUniformMatrix4fv)(GLint, GLsizei, GLboolean, const GLfloat *);
 ABI void   (*glGetShaderInfoLog)(GLuint, GLsizei, GLsizei *, GLchar *);
 ABI void   (*wglSwapIntervalEXT)(GLuint);
 ABI void   (*glGenerateMipmap)(GLenum);
+#endif
 
 void gl_destroy(void);
 GLuint gl_make_shader(const char *, const char *);
 GLint gl_get_uniform(const char *);
-void gl_init(void *);
+void gl_init();
 
 #endif
